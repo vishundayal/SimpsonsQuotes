@@ -1,0 +1,68 @@
+name: SimpsonsQuotes
+
+options:
+    bundleIdPrefix: com.vishun.simpsons-quotes
+    createIntermediateGroups: true
+    deploymentTarget:
+        iOS: 15.0
+        
+targetTemplates:
+    Module:
+        type: framework
+        platform: iOS
+        deploymentTarget: 15.0
+        settings:
+            base:
+                GENERATE_INFOPLIST_FILE: true
+                TARGETED_DEVICE_FAMILY: 1
+                SUPPORTS_MACCATALYST: false
+targets:
+    Application:
+        type: application
+        platform: iOS
+        info:
+            path: SimpsonsQuotes/Application/Info.plist
+            properties:
+                UILaunchStoryboardName: "LaunchScreen"
+                CFBundleDisplayName: "SimpsonsQuotes"
+                CFBundleShortVersionString: "1.0.0"
+                UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+                NSAppTransportSecurity:
+                    NSAllowsArbitraryLoads: true
+        settings:
+            base:
+                TARGETED_DEVICE_FAMILY: 1
+                PRODUCT_BUNDLE_IDENTIFIER: "com.vishun.simpsons-quotes"
+                CURRENT_PROJECT_VERSION: 1
+        sources: [SimpsonsQuotes/Application]
+        dependencies:
+          - target: Assets
+    Assets:
+        templates:
+            - Module
+        sources: [SimpsonsQuotes/Assets]
+    Navigator:
+        templates:
+            - Module
+        sources: [SimpsonsQuotes/Navigator]
+        
+    Networker:
+        templates:
+            - Module
+        sources: [SimpsonsQuotes/Domain/Networker]
+    Entities:
+        templates:
+            - Module
+        sources: [SimpsonsQuotes/Domain/Entities]
+    Endpoints:
+        templates:
+            - Module
+        sources: [SimpsonsQuotes/Data/Endpoints]
+    Services:
+        templates:
+            - Module
+        sources: [SimpsonsQuotes/Data/Services]
+        dependencies:
+            - target: Endpoints
+            - target: Entities
+            - target: Networker
